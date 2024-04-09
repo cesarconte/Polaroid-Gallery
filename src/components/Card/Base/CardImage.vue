@@ -1,8 +1,8 @@
 <!--CardImage.vue-->
 
 <script setup>
-import { ref, computed, watchEffect } from "vue";
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { ref, computed, watchEffect, onMounted } from "vue";
+import { getFirestore, doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { useDisplay } from "vuetify";
 import CardActions from "./CardActions.vue";
 import Avatar from "@/components/Base/Avatar.vue";
@@ -11,8 +11,21 @@ import Button from "@/components/Base/Button.vue";
 
 const { card, user } = defineProps(['card', 'user']);
 const db = getFirestore();
+const users = ref([]);
 const overlay = ref(false);
 const { xs } = useDisplay();
+
+const fetchData = async () => {
+  await fetchUsers();
+};
+
+const fetchUsers = async () => {
+  const usersCollection = collection(db, 'users');
+  const usersSnapshot = await getDocs(usersCollection);
+  users.value = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+};
+
+onMounted(fetchData);
 
 const imageSource = computed(() => {
   return card.image;
@@ -63,7 +76,7 @@ const scaleAvatar = (isHovering) => {
             </Image>
           </v-overlay>
         </v-card-actions>
-        <router-link :to="`/users`">
+        <router-link v-for="user in users" :key="user.id" :to="`/user/${user.id}`">
           <div class="d-flex align-baseline pl-4" :class="xs ? 'leftXs' : 'left'">
             <Avatar avatarSize="32" avatarClass="avatar-container mr-n1" @mouseover="scaleAvatar(true)">
               <Image imgClass="avatar-image" :imgSrc="avatarSource" :imgAlt="`${card.userFullName}'s avatar'`" cover>
