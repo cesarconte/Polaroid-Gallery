@@ -86,7 +86,7 @@ theme.global.name.value = localStorage.getItem('darkMode') === 'true' ? 'dark' :
       </RouterLink>
       <v-app-bar-title>Polaroid Gallery</v-app-bar-title>
       <v-spacer v-if="smAndUp"></v-spacer>
-      <RouterLink :active-class="mdAndDown ? 'activeIcon text-black bg-white' :'text-black bg-white'" to="/explore" 
+      <RouterLink :active-class="mdAndDown ? 'text-black bg-white' :'text-black bg-white'" to="/explore" 
         class="router text-decoration-none mr-2 d-none d-md-block" :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
         <v-tooltip v-if="mdAndDown" key="explore-tooltip" location="bottom">
           <template v-slot:activator="{ props: tooltip }">
@@ -100,7 +100,7 @@ theme.global.name.value = localStorage.getItem('darkMode') === 'true' ? 'dark' :
           :iconClass="lgAndUp ? 'mr-2' : ''" class="text-none rounded-pill">
         </Button>
       </RouterLink>
-      <RouterLink :active-class="mdAndDown ? 'activeIcon text-black bg-white' : 'text-black bg-white'" to="/users"
+      <RouterLink :active-class="mdAndDown ? 'text-black bg-white' : 'text-black bg-white'" to="/users"
         class="router text-decoration-none mr-2 d-none d-md-block" :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
         <v-tooltip v-if="mdAndDown" key="users-tooltip" location="bottom">
           <template v-slot:activator="{ props: tooltip }">
@@ -110,11 +110,11 @@ theme.global.name.value = localStorage.getItem('darkMode') === 'true' ? 'dark' :
           </template>
           <span>Users</span>
         </v-tooltip>
-        <Button v-else  :btnText="lgAndUp ? 'Users' : ''" border  prependIcon="mdi-account-group-outline"
+        <Button v-else :btnText="lgAndUp ? 'Users' : ''" border  prependIcon="mdi-account-group-outline"
           :iconClass="lgAndUp ? 'mr-2' : ''" class="text-none rounded-pill">
         </Button>
       </RouterLink>
-      <RouterLink v-if="!isLoggedIn" :active-class="mdAndDown ? 'activeIcon text-black bg-white' : 'text-black bg-white'" to="/register"
+      <RouterLink v-if="!isLoggedIn" :active-class="mdAndDown ? 'text-black bg-white' : 'text-black bg-white'" to="/register"
         class="router text-decoration-none d-none d-md-block mr-2" :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
         <v-tooltip v-if="mdAndDown" key="register-tooltip" location="bottom">
           <template v-slot:activator="{ props: tooltip }">
@@ -129,7 +129,7 @@ theme.global.name.value = localStorage.getItem('darkMode') === 'true' ? 'dark' :
           :iconClass="lgAndUp ? 'mr-2' : ''" class="text-none rounded-pill">
         </Button>
       </RouterLink>
-      <RouterLink v-if="!isLoggedIn" :active-class="mdAndDown ? 'activeIcon text-black bg-white' : 'active text-black bg-white'" to="/login"
+      <RouterLink v-if="!isLoggedIn" :active-class="mdAndDown ? 'text-black bg-white' : 'active text-black bg-white'" to="/login"
         class="router text-decoration-none mr-2 d-none d-sm-block" :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
         <v-tooltip v-if="mdAndDown" key="login-tooltip" location="bottom">
           <template v-slot:activator="{ props: tooltip }">
