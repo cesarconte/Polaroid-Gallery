@@ -140,7 +140,7 @@ const { smAndDown } = useDisplay();
       <v-container fluid :class="smAndDown ? 'mx-0 px-0' : ''">
         <v-row>
           <v-col :cols="smAndDown ? '12' : '9 mx-auto'">
-            <v-sheet v-if="currentUser" min-height="31.624vh" class="pa-4 border rounded-b-xl">
+            <v-sheet v-if="currentUser && filteredCards.length > 0" min-height="31.624vh" class="pa-4 border rounded-b-xl">
               <h3 class="pb-4">Published Polaroids</h3>
               <v-row class="d-flex flex-wrap mx-auto">
                 <v-col cols="12" sm="8 mx-auto" lg="6" v-for="card in filteredCards" :key="card.id"

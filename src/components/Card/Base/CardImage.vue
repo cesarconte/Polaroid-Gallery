@@ -1,7 +1,7 @@
 <!--CardImage.vue-->
 
 <script setup>
-import { ref, computed, watchEffect } from "vue";
+import { ref, computed, watchEffect, mergeProps } from "vue";
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { useRouter } from "vue-router";
 import { useDisplay } from "vuetify";
@@ -71,15 +71,23 @@ const goToUser = async () => {
             </Image>
           </v-overlay>
         </v-card-actions>
-        <div class="d-flex align-baseline pl-4" :class="xs ? 'leftXs' : 'left'" @click="goToUser">
-          <Avatar avatarSize="32" avatarClass="avatar-container mr-n1" @mouseover="scaleAvatar(true)">
-            <Image imgClass="avatar-image" :imgSrc="avatarSource" :imgAlt="`${card.userFullName}'s avatar'`" cover>
-            </Image>
-          </Avatar>
-          <v-card-text class="text-decoration-none text-white">
-            {{ card.userFullName }}
-          </v-card-text>
-        </div>
+        <v-tooltip key="user-tooltip" location="bottom">
+          <template v-slot:activator="{ props: tooltip }">
+            <div class="d-flex align-baseline pl-4" v-bind="mergeProps(tooltip)" :class="xs ? 'leftXs' : 'left'"
+              @click="goToUser">
+              <Avatar avatarSize="32" avatarClass="avatar-container mr-n1" @mouseover="scaleAvatar(true)">
+                <Image imgClass="avatar-image" :imgSrc="avatarSource" :imgAlt="`${card.userFullName}'s avatar'`" cover>
+                </Image>
+              </Avatar>
+              <v-card-text class="text-decoration-none text-white">
+                {{ card.userFullName }}
+              </v-card-text>
+            </div>
+          </template>
+          <span class="d-flex align-baseline">
+            <v-icon class="mr-1">mdi-cursor-default-click-outline</v-icon>
+            User information</span>
+        </v-tooltip>
         <v-spacer></v-spacer>
         <CardActions :card="card" :user="user" :class="xs ? 'bottomXs' : 'bottom'" />
       </v-sheet>
