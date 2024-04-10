@@ -71,8 +71,6 @@ const goToUser = async () => {
             </Image>
           </v-overlay>
         </v-card-actions>
-        <v-tooltip key="user-tooltip" location="bottom">
-          <template v-slot:activator="{ props: tooltip }">
             <div class="d-flex align-baseline pl-4" v-bind="mergeProps(tooltip)" :class="xs ? 'leftXs' : 'left'"
               @click="goToUser">
               <Avatar avatarSize="32" avatarClass="avatar-container mr-n1" @mouseover="scaleAvatar(true)">
@@ -82,12 +80,8 @@ const goToUser = async () => {
               <v-card-text class="text-decoration-none text-white">
                 {{ card.userFullName }}
               </v-card-text>
+              <v-tooltip activator="parent" location="bottom"><v-icon class="mr-1">mdi-cursor-default-click-outline</v-icon>User Information</v-tooltip>
             </div>
-          </template>
-          <span class="d-flex align-baseline">
-            <v-icon class="mr-1">mdi-cursor-default-click-outline</v-icon>
-            User information</span>
-        </v-tooltip>
         <v-spacer></v-spacer>
         <CardActions :card="card" :user="user" :class="xs ? 'bottomXs' : 'bottom'" />
       </v-sheet>

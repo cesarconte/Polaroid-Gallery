@@ -56,7 +56,6 @@ watch(selectedUser, async (newValue) => {
 });
 
 const filteredCards = computed(() => {
-  console.log(selectedUser.value)
   if (!selectedUser.value) return [];
   return cards.value.filter(card => card.userFullName === selectedUser.value);
 });

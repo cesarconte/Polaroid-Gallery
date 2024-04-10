@@ -1,8 +1,6 @@
 <!-- Avatar.vue -->
 
 <script setup>
-import { computed } from 'vue';
-
 const props = defineProps({
   avatarSize: {
     type: String,
@@ -24,14 +22,6 @@ const props = defineProps({
     type: String,
     default: '',
   },
-});
-
-const useStyles = computed(() => {
-  return {
-    width: props.size,
-    height: props.size,
-    backgroundColor: props.color,
-  };
 });
 </script>
 
