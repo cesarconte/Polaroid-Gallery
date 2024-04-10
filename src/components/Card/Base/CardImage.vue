@@ -1,8 +1,9 @@
 <!--CardImage.vue-->
 
 <script setup>
-import { ref, computed, watchEffect, onMounted } from "vue";
-import { getFirestore, doc, getDoc, collection, getDocs } from 'firebase/firestore';
+import { ref, computed, watchEffect } from "vue";
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { useRouter } from "vue-router";
 import { useDisplay } from "vuetify";
 import CardActions from "./CardActions.vue";
 import Avatar from "@/components/Base/Avatar.vue";
@@ -11,21 +12,10 @@ import Button from "@/components/Base/Button.vue";
 
 const { card, user } = defineProps(['card', 'user']);
 const db = getFirestore();
-const users = ref([]);
+const userId = card.createdBy;
+const router = useRouter();
 const overlay = ref(false);
 const { xs } = useDisplay();
-
-const fetchData = async () => {
-  await fetchUsers();
-};
-
-const fetchUsers = async () => {
-  const usersCollection = collection(db, 'users');
-  const usersSnapshot = await getDocs(usersCollection);
-  users.value = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-};
-
-onMounted(fetchData);
 
 const imageSource = computed(() => {
   return card.image;
@@ -48,6 +38,11 @@ watchEffect(async () => {
 
 const scaleAvatar = (isHovering) => {
   scaleAvatar.value = isHovering;
+};
+
+const goToUser = async () => {
+  console.log(userId);
+  await router.push(`/user/${userId}`);
 };
 </script>
 
@@ -76,17 +71,15 @@ const scaleAvatar = (isHovering) => {
             </Image>
           </v-overlay>
         </v-card-actions>
-        <router-link v-for="user in users" :key="user.id" :to="`/user/${user.id}`">
-          <div class="d-flex align-baseline pl-4" :class="xs ? 'leftXs' : 'left'">
-            <Avatar avatarSize="32" avatarClass="avatar-container mr-n1" @mouseover="scaleAvatar(true)">
-              <Image imgClass="avatar-image" :imgSrc="avatarSource" :imgAlt="`${card.userFullName}'s avatar'`" cover>
-              </Image>
-            </Avatar>
-            <v-card-text class="text-decoration-none text-white">
-              {{ card.userFullName }}
-            </v-card-text>
-          </div>
-        </router-link>
+        <div class="d-flex align-baseline pl-4" :class="xs ? 'leftXs' : 'left'" @click="goToUser">
+          <Avatar avatarSize="32" avatarClass="avatar-container mr-n1" @mouseover="scaleAvatar(true)">
+            <Image imgClass="avatar-image" :imgSrc="avatarSource" :imgAlt="`${card.userFullName}'s avatar'`" cover>
+            </Image>
+          </Avatar>
+          <v-card-text class="text-decoration-none text-white">
+            {{ card.userFullName }}
+          </v-card-text>
+        </div>
         <v-spacer></v-spacer>
         <CardActions :card="card" :user="user" :class="xs ? 'bottomXs' : 'bottom'" />
       </v-sheet>

@@ -56,9 +56,11 @@ watch(selectedUser, async (newValue) => {
 });
 
 const filteredCards = computed(() => {
+  console.log(selectedUser.value)
   if (!selectedUser.value) return [];
   return cards.value.filter(card => card.userFullName === selectedUser.value);
 });
+
 
 const userTotalLikes = computed(() => {
   return filteredCards.value.reduce((total, doc) => total + doc.likes, 0);
