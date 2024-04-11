@@ -61,9 +61,9 @@ const handleToggleFollowUser = async (card) => {
   if (!userId) return;
   try {
     await toggleFollowUser(card, userId);
-    const cardUserData = await getUserData(card.createdBy); // Get card creator's data
-    const cardUserFollowersCount = cardUserData.followers; // Extract follower count
-    card.followers = cardUserFollowersCount; // Store count in card object
+    const cardUserData = await getUserData(card.createdBy);
+    const cardUserFollowersCount = cardUserData.followers;
+    card.followers = cardUserFollowersCount;
   } catch (error) {
     console.error('Error toggling follow:', error);
   }

@@ -1,8 +1,8 @@
 <!-- UserView.vue -->
 
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue';
-import { collection, getDocs, getFirestore, query, where } from "firebase/firestore";
+import { ref, onMounted, computed } from 'vue';
+import { collection, getDocs, getFirestore } from "firebase/firestore";
 import { useDisplay } from 'vuetify';
 import Card from '@/components/Card/Card.vue';
 import Avatar from '@/components/Base/Avatar.vue';
@@ -12,8 +12,10 @@ const { user } = defineProps(['user']);
 const db = getFirestore();
 const users = ref([]);
 const cards = ref([]);
-const filteredUsers = ref([]);
-const favoriteCardsCount = ref(0);
+// const filteredUsers = ref([]);
+// const filteredCards = ref([]);
+// const userTotalLikes = ref(0);
+// const userTotalFavorites = ref(0);
 
 const fetchData = async () => {
   await fetchUsers();
@@ -38,10 +40,21 @@ onMounted(() => {
 
 const selectedUser = ref(null);
 
-watch(selectedUser, async (newValue) => {
-  if (!newValue) return;
+// Using queries in Firebase instead of computed calculations //
+/* const resetValues = () => {
+  filteredCards.value = [];
+  filteredUsers.value = [];
+  // favoriteCardsCount.value = '';
+  // userTotalLikes.value = '';
+};
 
-  const usersRef = collection(db, 'users');
+watch(selectedUser, async (newValue) => {
+  if (!newValue) {
+    resetValues();
+    return;
+  }
+
+   const usersRef = collection(db, 'users');
   const q1 = query(usersRef, where('fullName', '==', selectedUser.value));
   const querySnapshot1 = await getDocs(q1);
   filteredUsers.value = querySnapshot1.docs.map(doc => ({
@@ -49,10 +62,26 @@ watch(selectedUser, async (newValue) => {
     ...doc.data()
   }));
 
-  const cardsRef = collection(db, "cards");
-  const q2 = query(cardsRef, where('userFullName', '==', selectedUser.value), where('isFavorite', '==', true));
+  const cardsRef = collection(db, 'cards');
+  const q2 = query(cardsRef, where('userFullName', '==', selectedUser.value));
   const querySnapshot2 = await getDocs(q2);
-  favoriteCardsCount.value = querySnapshot2.docs.length;
+  filteredCards.value = querySnapshot2.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
+
+   const cardsRef = collection(db, 'cards');
+  const q3 = query(cardsRef, where('userFullName', '==', selectedUser.value), where('isFavorite', '==', true));
+  const querySnapshot3 = await getDocs(q3);
+  userTotalFavorites.value = querySnapshot3.docs.length;
+
+ userTotalLikes.value = filteredCards.value.reduce((total, doc) => total + doc.likes, 0);
+
+}); */
+
+const filteredUsers = computed(() => {
+  if (!selectedUser.value) return [];
+  return users.value.filter(user => user.fullName === selectedUser.value);
 });
 
 const filteredCards = computed(() => {
@@ -60,6 +89,10 @@ const filteredCards = computed(() => {
   return cards.value.filter(card => card.userFullName === selectedUser.value);
 });
 
+const userTotalFavorites = computed(() => {
+  if (!selectedUser.value) return 0;
+  return filteredCards.value.filter(card => card.userFullName === selectedUser.value && card.isFavorite).length;
+});
 
 const userTotalLikes = computed(() => {
   return filteredCards.value.reduce((total, doc) => total + doc.likes, 0);
@@ -106,7 +139,7 @@ const { sm, smAndDown, mdAndUp } = useDisplay();
                       <p class="ml-8 mb-4">Total Users Following: {{ user.following.length }} </p>
                       <p>
                         <v-icon class="mr-1">mdi-bookmark-outline</v-icon>
-                        Total Favorites: {{ favoriteCardsCount }}
+                        Total Favorites: {{ userTotalFavorites }}
                       </p>
                       <p class="ml-8 mb-4">Total My Favorites: {{ user.favoriteCards.length }}
                       </p>
@@ -140,7 +173,7 @@ const { sm, smAndDown, mdAndUp } = useDisplay();
                       <p class="ml-8 mb-4">Total Users Following: {{ user.following.length }} </p>
                       <p>
                         <v-icon class="mr-1">mdi-bookmark-outline</v-icon>
-                        Total Favorites: {{ favoriteCardsCount }}
+                        Total Favorites: {{ userTotalFavorites }}
                       </p>
                       <p class="ml-8 mb-4">Total My Favorites: {{ user.favoriteCards.length }}
                       </p>
@@ -206,9 +239,11 @@ const { sm, smAndDown, mdAndUp } = useDisplay();
             <v-sheet min-height="31.624vh" class="pa-4 border rounded-b-xl">
               <h3 class="pb-4">Published Polaroids</h3>
               <v-row class="d-flex flex-wrap mx-auto">
-                <v-col v-show="selectedUser" cols="12" sm="8 mx-auto" lg="6" v-for="card in filteredCards"
-                  :key="card.id" :card="card">
-                  <Card :card="card" class="mx-0" />
+                <v-col v-show="filteredCards.length > 0 && selectedUser" cols="12" sm="8 mx-auto" lg="6"
+                  v-for="card in filteredCards" :key="card.id" :card="card">
+                  <v-progress-circular indeterminate class="mx-auto" />
+                  <Card :card="card" class="mx-0">
+                  </Card>
                 </v-col>
               </v-row>
             </v-sheet>

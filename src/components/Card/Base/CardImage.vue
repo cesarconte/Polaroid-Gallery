@@ -1,7 +1,7 @@
 <!--CardImage.vue-->
 
 <script setup>
-import { ref, computed, watchEffect, mergeProps } from "vue";
+import { ref, computed, watchEffect } from "vue";
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { useRouter } from "vue-router";
 import { useDisplay } from "vuetify";
@@ -71,7 +71,7 @@ const goToUser = async () => {
             </Image>
           </v-overlay>
         </v-card-actions>
-            <div class="d-flex align-baseline pl-4" v-bind="mergeProps(tooltip)" :class="xs ? 'leftXs' : 'left'"
+            <div class="d-flex align-baseline pl-4" :class="xs ? 'leftXs' : 'left'"
               @click="goToUser">
               <Avatar avatarSize="32" avatarClass="avatar-container mr-n1" @mouseover="scaleAvatar(true)">
                 <Image imgClass="avatar-image" :imgSrc="avatarSource" :imgAlt="`${card.userFullName}'s avatar'`" cover>

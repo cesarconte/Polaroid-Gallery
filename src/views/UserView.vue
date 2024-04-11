@@ -1,9 +1,8 @@
 <!-- UserView.vue -->
 
 <script setup>
-import { ref, onMounted, computed, watchEffect } from 'vue';
-import { collection, getDocs, getDoc, doc, getFirestore, query, where } from "firebase/firestore";
-import { getUserData } from '@/services/User/userGetData';
+import { ref, onMounted, computed } from 'vue';
+import { collection, getDocs, getFirestore } from "firebase/firestore";
 import { useDisplay } from 'vuetify';
 import Card from '@/components/Card/Card.vue';
 import Avatar from '@/components/Base/Avatar.vue';
