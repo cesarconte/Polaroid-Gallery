@@ -241,7 +241,6 @@ const { sm, smAndDown, mdAndUp } = useDisplay();
               <v-row class="d-flex flex-wrap mx-auto">
                 <v-col v-show="filteredCards.length > 0 && selectedUser" cols="12" sm="8 mx-auto" lg="6"
                   v-for="card in filteredCards" :key="card.id" :card="card">
-                  <v-progress-circular indeterminate class="mx-auto" />
                   <Card :card="card" class="mx-0">
                   </Card>
                 </v-col>
