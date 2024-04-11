@@ -20,7 +20,7 @@ const showPublishDialog = () => {
   isPublishDialogOpen.value = true;
 };
 const drawer = ref(false);
-const { smAndUp, smAndDown, mdAndDown, mdAndUp, lgAndUp } = useDisplay();
+const { xs, smAndUp, smAndDown, mdAndDown, mdAndUp, lgAndUp } = useDisplay();
 
 let auth = getAuth();
 
@@ -53,11 +53,47 @@ const navigateTo = (route) => {
 };
 
 const navItems = [
-  { label: 'Explore', to: '/explore', icon: 'mdi-database-search-outline', btnText: 'Explore' },
-  { label: 'Users', to: '/users', icon: 'mdi-account-group-outline', btnText: 'Users' },
-  { label: 'Register', to: '/register', icon: 'mdi-account-plus-outline', btnText: 'Register' },
-  { label: 'Login', to: '/login', icon: 'mdi-account-circle-outline', btnText: 'Log in' },
-  { label: 'Submit a new polaroid', action: showPublishDialog, icon: 'mdi-tray-arrow-up' }
+  {
+    label: 'Explore',
+    to: '/explore',
+    icon: 'mdi-database-search-outline'
+  },
+  {
+    label: 'Users',
+    to: '/users',
+    icon: 'mdi-account-group-outline'
+  },
+  {
+    label: 'Register',
+    to: '/register',
+    icon: 'mdi-account-plus-outline',
+    showWhenLoggedIn: true,
+  },
+  {
+    label: 'Login',
+    to: '/login',
+    icon: 'mdi-account-circle-outline',
+    showWhenLoggedIn: true,
+  },
+  {
+    label: 'Submit a new polaroid',
+    action: showPublishDialog,
+    icon: 'mdi-tray-arrow-up'
+  },
+  {
+    label: 'Log out',
+    action: handleSignOut,
+    icon: 'mdi-account-arrow-right-outline'
+  }
+];
+
+const items = [
+  {
+    label: 'Light / Dark mode',
+    iconClass: 'toggleMode mr-2',
+    icon: 'mdi-theme-light-dark',
+    action: toggleTheme,
+  }
 ];
 
 const theme = useTheme();
@@ -75,7 +111,8 @@ theme.global.name.value = localStorage.getItem('darkMode') === 'true' ? 'dark' :
 <template>
   <v-app>
     <v-app-bar flat color="grey-darken-4" class="px-3">
-      <RouterLink active-class="activeIcon" to="/" class="text-decoration-none" :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
+      <RouterLink active-class="activeIcon" to="/" class="text-decoration-none"
+        :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
         <v-tooltip key="home-tooltip" location="bottom">
           <template v-slot:activator="{ props: tooltip }">
             <v-app-bar-nav-icon v-bind="mergeProps(tooltip)" icon="mdi-panorama-variant-outline" border class="router">
@@ -86,8 +123,9 @@ theme.global.name.value = localStorage.getItem('darkMode') === 'true' ? 'dark' :
       </RouterLink>
       <v-app-bar-title>Polaroid Gallery</v-app-bar-title>
       <v-spacer v-if="smAndUp"></v-spacer>
-      <RouterLink :active-class="mdAndDown ? 'text-black bg-white' :'text-black bg-white'" to="/explore" 
-        class="router text-decoration-none mr-2 d-none d-md-block" :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
+      <RouterLink :active-class="mdAndDown ? 'text-black bg-white' : 'text-black bg-white'" to="/explore"
+        class="router text-decoration-none mr-2 d-none d-md-block"
+        :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
         <v-tooltip v-if="mdAndDown" key="explore-tooltip" location="bottom">
           <template v-slot:activator="{ props: tooltip }">
             <Button v-bind="mergeProps(tooltip)" border btnSize="48" class="rounded-circle">
@@ -101,7 +139,8 @@ theme.global.name.value = localStorage.getItem('darkMode') === 'true' ? 'dark' :
         </Button>
       </RouterLink>
       <RouterLink :active-class="mdAndDown ? 'text-black bg-white' : 'text-black bg-white'" to="/users"
-        class="router text-decoration-none mr-2 d-none d-md-block" :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
+        class="router text-decoration-none mr-2 d-none d-md-block"
+        :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
         <v-tooltip v-if="mdAndDown" key="users-tooltip" location="bottom">
           <template v-slot:activator="{ props: tooltip }">
             <Button v-bind="mergeProps(tooltip)" border btnSize="48" class="btnIcon rounded-circle">
@@ -110,16 +149,16 @@ theme.global.name.value = localStorage.getItem('darkMode') === 'true' ? 'dark' :
           </template>
           <span>Users</span>
         </v-tooltip>
-        <Button v-else :btnText="lgAndUp ? 'Users' : ''" border  prependIcon="mdi-account-group-outline"
+        <Button v-else :btnText="lgAndUp ? 'Users' : ''" border prependIcon="mdi-account-group-outline"
           :iconClass="lgAndUp ? 'mr-2' : ''" class="text-none rounded-pill">
         </Button>
       </RouterLink>
-      <RouterLink v-if="!isLoggedIn" :active-class="mdAndDown ? 'text-black bg-white' : 'text-black bg-white'" to="/register"
-        class="router text-decoration-none d-none d-md-block mr-2" :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
+      <RouterLink v-if="!isLoggedIn" :active-class="mdAndDown ? 'text-black bg-white' : 'text-black bg-white'"
+        to="/register" class="router text-decoration-none d-none d-md-block mr-2"
+        :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
         <v-tooltip v-if="mdAndDown" key="register-tooltip" location="bottom">
           <template v-slot:activator="{ props: tooltip }">
-            <Button v-bind="mergeProps(tooltip)" border btnSize="48"
-             class="btnIcon rounded-circle">
+            <Button v-bind="mergeProps(tooltip)" border btnSize="48" class="btnIcon rounded-circle">
               <v-icon>mdi-account-plus-outline</v-icon>
             </Button>
           </template>
@@ -129,23 +168,23 @@ theme.global.name.value = localStorage.getItem('darkMode') === 'true' ? 'dark' :
           :iconClass="lgAndUp ? 'mr-2' : ''" class="text-none rounded-pill">
         </Button>
       </RouterLink>
-      <RouterLink v-if="!isLoggedIn" :active-class="mdAndDown ? 'text-black bg-white' : 'active text-black bg-white'" to="/login"
-        class="router text-decoration-none mr-2 d-none d-sm-block" :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
+      <RouterLink v-if="!isLoggedIn" :active-class="mdAndDown ? 'text-black bg-white' : 'active text-black bg-white'"
+        to="/login" class="router text-decoration-none mr-2 d-none d-sm-block"
+        :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
         <v-tooltip v-if="mdAndDown" key="login-tooltip" location="bottom">
           <template v-slot:activator="{ props: tooltip }">
-            <Button v-bind="mergeProps(tooltip)" border btnSize="48" class="btnIcon rounded-circle"
-            >
+            <Button v-bind="mergeProps(tooltip)" border btnSize="48" class="btnIcon rounded-circle">
               <v-icon>mdi-account-circle-outline</v-icon>
             </Button>
           </template>
           <span>Log in</span>
         </v-tooltip>
-        <Button v-else border :btnText="lgAndUp ? 'Log in' : ''"
-          prependIcon="mdi-account-circle-outline" :iconClass="lgAndUp ? 'mr-2' : ''"
-          class="text-none rounded-pill">
+        <Button v-else border :btnText="lgAndUp ? 'Log in' : ''" prependIcon="mdi-account-circle-outline"
+          :iconClass="lgAndUp ? 'mr-2' : ''" class="text-none rounded-pill">
         </Button>
       </RouterLink>
-      <v-app-bar-nav-icon v-if="isLoggedIn" border color="light-blue-lighten-1" :size="smAndDown ? '48' : ''" class="text-none d-none d-sm-block" :class="smAndDown ? 'mr-2' : 'btnAvatar rounded-pill mr-2'">
+      <v-app-bar-nav-icon v-if="isLoggedIn" border color="light-blue-lighten-1" :size="smAndDown ? '48' : ''"
+        class="text-none d-none d-sm-block" :class="smAndDown ? 'mr-2' : 'btnAvatar rounded-pill mr-2'">
         <div :class="smAndDown ? '' : 'mr-2'">
           <Avatar :avatarSize="smAndDown ? '44' : '34'">
             <v-img v-if="userData.avatar" cover :src="userData.avatar"
@@ -156,19 +195,19 @@ theme.global.name.value = localStorage.getItem('darkMode') === 'true' ? 'dark' :
         <span v-if="mdAndUp">{{ userData.fullName }}</span>
       </v-app-bar-nav-icon>
       <v-tooltip v-if="isLoggedIn && mdAndDown" key="logout-tooltip" location="bottom">
-          <template v-slot:activator="{ props: tooltip }">
-            <Button v-bind="mergeProps(tooltip)" border
-              class="text-none d-none d-md-block mr-2 rounded-circle" btn-size="48" @click="handleSignOut">
-              <v-icon>mdi-account-arrow-right-outline</v-icon>
-            </Button>
-          </template>
-          <span>Log out</span>
-        </v-tooltip>
-        <Button v-if="isLoggedIn && lgAndUp" border class="mr-2 text-none d-none d-md-block rounded-pill"
-          @click="handleSignOut">
-          <v-icon :class="lgAndUp ? 'mr-2' : ''">mdi-account-arrow-right-outline</v-icon>
-          <span v-if="lgAndUp">Log out</span>
-        </Button>
+        <template v-slot:activator="{ props: tooltip }">
+          <Button v-bind="mergeProps(tooltip)" border class="text-none d-none d-md-block mr-2 rounded-circle"
+            btn-size="48" @click="handleSignOut">
+            <v-icon>mdi-account-arrow-right-outline</v-icon>
+          </Button>
+        </template>
+        <span>Log out</span>
+      </v-tooltip>
+      <Button v-if="isLoggedIn && lgAndUp" border class="mr-2 text-none d-none d-md-block rounded-pill"
+        @click="handleSignOut">
+        <v-icon :class="lgAndUp ? 'mr-2' : ''">mdi-account-arrow-right-outline</v-icon>
+        <span v-if="lgAndUp">Log out</span>
+      </Button>
       <PublishCard />
       <v-tooltip key="theme-tooltip" location="bottom">
         <template v-slot:activator="{ props: tooltip }">
@@ -178,30 +217,51 @@ theme.global.name.value = localStorage.getItem('darkMode') === 'true' ? 'dark' :
         </template>
         <span>Switch to Light/Dark mode</span>
       </v-tooltip>
-      <!-- Menu Button -->
       <v-tooltip key="menu-tooltip" location="bottom">
         <template v-slot:activator="{ props: tooltip }">
           <v-app-bar-nav-icon v-bind="mergeProps(tooltip)" icon="mdi-menu" @click.stop="drawer = !drawer"
-            aria-label="Menu" class="ml-2 d-md-none"></v-app-bar-nav-icon>
+            aria-label="Menu" class="ml-2 d-md-none" :class="xs ? 'mr-2' : ''"></v-app-bar-nav-icon>
         </template>
         <span>Menu</span>
       </v-tooltip>
+      <v-menu>
+        <template v-slot:activator="{ props }" class="px-0">
+          <Button class="d-sm-none mr-0 rounded-pill" btnSize="48" v-bind="props">
+            <v-icon>mdi-dots-vertical</v-icon>
+            <v-tooltip activator="parent" location="bottom">Tooltip</v-tooltip>
+          </Button>
+        </template>
+        <v-list>
+          <v-list-item v-for="(item, i) in items" :key="i" :value="i" :prepend-icon="item.icon" @click="item.action">
+            {{ item.label }}
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
-    <v-navigation-drawer v-model="drawer" app :location="'top'" :temporary="true" :class="'h-auto'"
-      color="grey-darken-3">
+    <v-navigation-drawer v-model="drawer" app :location="'top'" :temporary="true" :class="'h-auto'">
       <v-list>
-        <v-list-item v-for="(item, index) in navItems" :key="index" @click="handleNavItem(item)"
-          :prepend-icon="item.icon">
+        <v-list-item v-for="(item, index) in navItems.filter(item => !item.showWhenLoggedIn)" :key="index"
+          :prepend-icon="item.icon" @click="handleNavItem(item)">
           {{ item.label }}
         </v-list-item>
+        <template v-if="isLoggedIn && xs">
+          <v-list-item>
+            <Avatar :avatarSize="'24'" class="mr-7">
+              <v-img v-if="userData.avatar" cover :src="userData.avatar"
+                :alt="isLoggedIn ? `Avatar of ${userData.fullName}` : 'User Avatar'" color="grey-darken-3">
+              </v-img>
+            </Avatar>
+            {{ userData.fullName }}
+          </v-list-item>
+        </template>
       </v-list>
     </v-navigation-drawer>
     <v-main>
-        <RouterView v-slot="{ Component }">
-          <transition name="route" mode="out-in">
-            <component :is="Component" />
-          </transition>
-        </RouterView>
+      <RouterView v-slot="{ Component }">
+        <transition name="route" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </RouterView>
     </v-main>
     <Footer />
   </v-app>
