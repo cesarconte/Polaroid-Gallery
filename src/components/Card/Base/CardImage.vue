@@ -3,7 +3,7 @@
 <script setup>
 import { ref, computed, watchEffect } from "vue";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-import { useRouter } from "vue-router";
+import { RouterLink } from "vue-router";
 import { useDisplay } from "vuetify";
 import CardActions from "./CardActions.vue";
 import Avatar from "@/components/Base/Avatar.vue";
@@ -12,9 +12,7 @@ import Button from "@/components/Base/Button.vue";
 
 const { card, user } = defineProps(["card", "user"]);
 const db = getFirestore();
-const userFullName = card.userFullName;
 
-const router = useRouter();
 const overlay = ref(false);
 const { xs } = useDisplay();
 
@@ -93,12 +91,6 @@ const scaleAvatar = (isHovering) => {
             </Image>
           </v-overlay>
         </v-card-actions>
-        <!-- route as a prop string, representing the path to the route/user page:
-        <RouterLink :to="{ path: `/user/${card.userFullName}` }" class="d-flex align-baseline pl-4" :class="xs ? 'leftXs' : 'left'"> -->
-        <!-- route as a prop object, representing the path to the route/user page:
-          * name: the name of the route. This is the name that you defined in your Vue Router configuration.
-          * params: an object containing the parameters that you want to pass to the route.
-          In this case, we are passing the fullName parameter, which is the full name of the user. -->
         <RouterLink
           :to="{ name: 'User', params: { fullName: card.userFullName } }"
           class="d-flex align-baseline pl-4"
