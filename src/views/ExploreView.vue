@@ -95,7 +95,7 @@ const { xs, sm, md } = useDisplay();
       <p v-else class="mb-10"> We hope you find what are you looking for.</p>
       <div class="d-block mx-auto" :class="xs ? 'w-100' : sm ? 'w-75' : md ? 'w-75' : 'w-50'">
         <v-autocomplete v-model="selectedTags" :items="tags" item-title="name" item-text="name"
-          label="Filter by Tag" chips closable-chips multiple hide-details prepend-inner-icon="mdi-tag-search-outline" variant="outlined"
+          label="Filter by Tag" clearable chips closable-chips multiple hide-details prepend-inner-icon="mdi-tag-search-outline" variant="outlined"
           rounded auto-select-first>
           <template v-slot:chip="{ props, item }">
             <v-chip

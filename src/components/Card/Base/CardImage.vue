@@ -12,7 +12,8 @@ import Button from "@/components/Base/Button.vue";
 
 const { card, user } = defineProps(['card', 'user']);
 const db = getFirestore();
-const userId = card.createdBy;
+const userFullName = card.userFullName;
+
 const router = useRouter();
 const overlay = ref(false);
 const { xs } = useDisplay();
@@ -41,8 +42,7 @@ const scaleAvatar = (isHovering) => {
 };
 
 const goToUser = async () => {
-  console.log(userId);
-  await router.push(`/user/${userId}`);
+  await router.push(`/user/${userFullName}`);
 };
 </script>
 

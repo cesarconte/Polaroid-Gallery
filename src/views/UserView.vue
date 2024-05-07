@@ -37,7 +37,7 @@ onMounted(async () => {
 });
 
 const currentUser = computed(() => {
-  return users.value.find(user => user.id === route.params.id);
+  return users.value.find(user => user.fullName === route.params.fullName);
 });
 
 const filteredCards = computed(() => {
@@ -78,21 +78,25 @@ const { smAndDown } = useDisplay();
                         <v-icon class="mr-1">mdi-account-heart-outline</v-icon>
                         Total Followers: {{ currentUser.followers.length }}
                       </p>
-                      <p class="ml-8 mb-4">Total Users Following: {{ currentUser.following.length }} </p>
+                      <p class="ml-8 mb-4">Total Users Following: {{
+                        currentUser.following.length }} </p>
                       <p>
                         <v-icon class="mr-1">mdi-bookmark-outline</v-icon>
                         Total Favorites: {{ userTotalFavorites }}
                       </p>
-                      <p class="ml-8 mb-4">Total My Favorites: {{ currentUser.favoriteCards.length }}
+                      <p class="ml-8 mb-4">Total My Favorites: {{
+                        currentUser.favoriteCards.length }}
                       </p>
                       <p>
                         <v-icon class="mr-1">mdi-thumb-up-outline</v-icon>
                         Total Likes: {{ userTotalLikes }}
                       </p>
-                      <p class="ml-8 mb-4">Total My Likes: {{ currentUser.likeCards.length }} </p>
+                      <p class="ml-8 mb-4">Total My Likes: {{
+                        currentUser.likeCards.length }} </p>
                       <p class="pt-1">
                         <v-icon class="mr-1">mdi-image-outline</v-icon>
-                        Total Published Polaroids: {{ currentUser.createdCards.length }}
+                        Total Published Polaroids: {{
+                          currentUser.createdCards.length }}
                       </p>
                     </div>
                   </v-col>
@@ -100,7 +104,8 @@ const { smAndDown } = useDisplay();
               </v-sheet>
               <v-sheet v-else class="border rounded-t-xl pa-4">
                 <v-row>
-                  <v-col :class="smAndDown ? 'text-left' : 'text-right'" :cols="smAndDown ? '12' : '6'">
+                  <v-col :class="smAndDown ? 'text-left' : 'text-right'"
+                    :cols="smAndDown ? '12' : '6'">
                     <Avatar avatarSize="96">
                       <Image :imgSrc="currentUser.avatar" cover></Image>
                     </Avatar>
@@ -112,21 +117,25 @@ const { smAndDown } = useDisplay();
                         <v-icon class="mr-1">mdi-account-heart-outline</v-icon>
                         Total Followers: {{ currentUser.followers.length }}
                       </p>
-                      <p class="ml-8 mb-4">Total Users Following: {{ currentUser.following.length }} </p>
+                      <p class="ml-8 mb-4">Total Users Following: {{
+                        currentUser.following.length }} </p>
                       <p>
                         <v-icon class="mr-1">mdi-bookmark-outline</v-icon>
                         Total Favorites: {{ userTotalFavorites }}
                       </p>
-                      <p class="ml-8 mb-4">Total My Favorites: {{ currentUser.favoriteCards.length }}
+                      <p class="ml-8 mb-4">Total My Favorites: {{
+                        currentUser.favoriteCards.length }}
                       </p>
                       <p>
                         <v-icon class="mr-1">mdi-thumb-up-outline</v-icon>
                         Total Likes: {{ userTotalLikes }}
                       </p>
-                      <p class="ml-8 mb-4">Total My Likes: {{ currentUser.likeCards.length }} </p>
+                      <p class="ml-8 mb-4">Total My Likes: {{
+                        currentUser.likeCards.length }} </p>
                       <p>
                         <v-icon class="mr-1">mdi-image-outline</v-icon>
-                        Total Published Polaroids: {{ currentUser.createdCards.length }}
+                        Total Published Polaroids: {{
+                          currentUser.createdCards.length }}
                       </p>
                     </div>
                   </v-col>
@@ -139,11 +148,12 @@ const { smAndDown } = useDisplay();
       <v-container fluid :class="smAndDown ? 'mx-0 px-0' : ''">
         <v-row>
           <v-col :cols="smAndDown ? '12' : '9 mx-auto'">
-            <v-sheet v-if="currentUser && filteredCards.length > 0" min-height="31.624vh" class="pa-4 border rounded-b-xl">
+            <v-sheet v-if="currentUser && filteredCards.length > 0"
+              min-height="31.624vh" class="pa-4 border rounded-b-xl">
               <h3 class="pb-4">Published Polaroids</h3>
               <v-row class="d-flex flex-wrap mx-auto">
-                <v-col cols="12" sm="8 mx-auto" lg="6" v-for="card in filteredCards" :key="card.id"
-                  :card="card">
+                <v-col cols="12" sm="8 mx-auto" lg="6"
+                  v-for="card in filteredCards" :key="card.id" :card="card">
                   <Card :card="card" class="mx-0" />
                 </v-col>
               </v-row>
