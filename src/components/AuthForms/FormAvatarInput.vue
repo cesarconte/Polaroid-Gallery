@@ -1,17 +1,22 @@
 <!--AvatarInput.vue-->
 
 <script setup>
-import { onAvatarChange } from '@/services/Auth/authService';
+  import { onAvatarChange } from '@/services/Auth/authService';
 
-defineProps({
-  divTxt: String,
-})
+  defineProps({
+    divTxt: String,
+  });
 
-const rules = [
-  value => {
-    return !value || !value.length || value[0].size < 2000000 || 'Avatar size should be less than 2 MB!'
-  },
-]
+  const rules = [
+    (value) => {
+      return (
+        !value ||
+        !value.length ||
+        value[0].size < 2000000 ||
+        'Avatar size should be less than 2 MB!'
+      );
+    },
+  ];
 </script>
 
 <template>
@@ -29,4 +34,3 @@ const rules = [
     @change="onAvatarChange"
   ></v-file-input>
 </template>
-

@@ -1,6 +1,6 @@
 // userDataService.js
 
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 export const userData = reactive({
   email: '',
@@ -11,8 +11,8 @@ export const userData = reactive({
   avatar: '',
   createdCards: null,
   favoriteCards: null,
-  likeCards: null
-})
+  likeCards: null,
+});
 
 export function resetUserData() {
   for (const email in userData) {

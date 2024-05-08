@@ -1,11 +1,11 @@
 <!-- FormEmailInput-->
 
 <script setup>
-import { userData } from '@/services/User/userDataService';
+  import { userData } from '@/services/User/userDataService';
 
-defineProps({
-  divTxt: String,
-})
+  defineProps({
+    divTxt: String,
+  });
 </script>
 
 <template>
@@ -17,8 +17,6 @@ defineProps({
     prepend-inner-icon="mdi-email-outline"
     variant="outlined"
     type="email"
-    clearable></v-text-field>
+    clearable
+  ></v-text-field>
 </template>
-
-
-  

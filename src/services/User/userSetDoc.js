@@ -1,20 +1,20 @@
 // setUserDoc.js
 
-import { getFirestore, doc, setDoc } from 'firebase/firestore'
-import { getDefaultAvatarURL, uploadAvatar } from './userAvatarService'
-import { userData } from './userDataService'
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { getDefaultAvatarURL, uploadAvatar } from './userAvatarService';
+import { userData } from './userDataService';
 
 export async function setUserDoc(user) {
-  const db = getFirestore()
-  const userDocRef = doc(db, 'users', user.uid)
+  const db = getFirestore();
+  const userDocRef = doc(db, 'users', user.uid);
 
   try {
-    let avatarURL = userData.avatar
+    let avatarURL = userData.avatar;
 
     if (!avatarURL) {
-      avatarURL = await getDefaultAvatarURL()
+      avatarURL = await getDefaultAvatarURL();
     } else {
-      avatarURL = await uploadAvatar(user, userData.avatar)
+      avatarURL = await uploadAvatar(user, userData.avatar);
     }
 
     // Actualizar el documento del usuario con la URL del avatar
@@ -28,9 +28,9 @@ export async function setUserDoc(user) {
       favoriteCards: [],
       likeCards: [],
       followers: [],
-      following: []
-    })
+      following: [],
+    });
   } catch (error) {
-    console.error('Error setting user document:', error)
+    console.error('Error setting user document:', error);
   }
 }

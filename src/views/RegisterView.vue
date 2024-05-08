@@ -1,7 +1,7 @@
 <!-- RegisterView.vue -->
 
 <script setup>
-import RegisterForm from '@/components/AuthForms/RegisterForm.vue';
+  import RegisterForm from '@/components/AuthForms/RegisterForm.vue';
 </script>
 
 <template>

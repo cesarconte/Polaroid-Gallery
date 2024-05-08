@@ -1,6 +1,11 @@
 // userAvatarService.js
 
-import { getStorage, ref as firebaseStorageRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import {
+  getStorage,
+  ref as firebaseStorageRef,
+  uploadBytesResumable,
+  getDownloadURL,
+} from 'firebase/storage';
 
 export const uploadAvatar = async (user, avatarFile) => {
   if (!user || !avatarFile) {
@@ -30,7 +35,10 @@ export const uploadAvatar = async (user, avatarFile) => {
 
 export const getDefaultAvatarURL = async () => {
   try {
-    const defaultAvatarRef = firebaseStorageRef(getStorage(), 'avatars/Avatar.svg');
+    const defaultAvatarRef = firebaseStorageRef(
+      getStorage(),
+      'avatars/Avatar.svg'
+    );
     const defaultAvatarURL = await getDownloadURL(defaultAvatarRef);
     return defaultAvatarURL;
   } catch (error) {

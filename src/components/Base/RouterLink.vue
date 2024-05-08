@@ -1,13 +1,12 @@
 <!-- RouterLink.vue -->
 
 <script setup>
-import Button from '@/components/Base/Button.vue';
+  import Button from '@/components/Base/Button.vue';
 
-defineProps({
-  to: String,
-  btnText: String,
-});
-
+  defineProps({
+    to: String,
+    btnText: String,
+  });
 </script>
 
 <template>
@@ -15,7 +14,3 @@ defineProps({
     <slot />
   </RouterLink>
 </template>
-
-
-
-  

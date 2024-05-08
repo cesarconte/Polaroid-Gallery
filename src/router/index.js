@@ -1,7 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { hasMoreCards } from '@/services/Card/cardService'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { hasMoreCards } from '@/services/Card/cardService';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,22 +9,22 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import('../views/RegisterView.vue')
+      component: () => import('../views/RegisterView.vue'),
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/LoginView.vue')
+      component: () => import('../views/LoginView.vue'),
     },
     {
       path: '/explore',
       name: 'Explore',
-      component: () => import('../views/ExploreView.vue')
+      component: () => import('../views/ExploreView.vue'),
       /*meta: {
         requiresAuth: true,
       }*/
@@ -32,52 +32,52 @@ const router = createRouter({
     {
       path: '/:catchall(.*)*',
       name: 'Not Found',
-      component: () => import('../views/404View.vue')
+      component: () => import('../views/404View.vue'),
     },
     {
       path: '/users',
       name: 'Users',
-      component: () => import('../views/UsersView.vue')
+      component: () => import('../views/UsersView.vue'),
     },
     {
       path: '/user/:fullName',
       name: 'User',
-      component: () => import('../views/UserView.vue')
-    }
-  ]
-})
+      component: () => import('../views/UserView.vue'),
+    },
+  ],
+});
 
 const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     const removeListener = onAuthStateChanged(
       getAuth(),
       (user) => {
-        removeListener()
-        resolve(user)
+        removeListener();
+        resolve(user);
       },
       reject
-    )
-  })
-}
+    );
+  });
+};
 
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (await getCurrentUser()) {
-      next()
+      next();
     } else {
-      alert("You don't have access!")
-      next('/')
+      alert("You don't have access!");
+      next('/');
     }
   } else {
-    next()
+    next();
   }
-})
+});
 
 router.beforeEach((to, from, next) => {
   if (to.path === '/') {
-    hasMoreCards.value = true
+    hasMoreCards.value = true;
   }
-  next()
-})
+  next();
+});
 
-export default router
+export default router;
