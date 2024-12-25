@@ -60,7 +60,7 @@ watch(selectedUser, async (newValue) => {
     return;
   }
 
-   const usersRef = collection(db, 'users');
+  const usersRef = collection(db, 'users');
   const q1 = query(usersRef, where('fullName', '==', selectedUser.value));
   const querySnapshot1 = await getDocs(q1);
   filteredUsers.value = querySnapshot1.docs.map(doc => ({
