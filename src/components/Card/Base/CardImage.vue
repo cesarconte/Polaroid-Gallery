@@ -105,7 +105,7 @@
         </v-card-actions>
         <RouterLink
           :to="{ name: 'User', params: { fullName: card.userFullName } }"
-          class="d-flex align-baseline pl-4"
+          class="d-flex align-baseline pl-4 text-decoration-none"
           :class="xs ? 'leftXs' : 'left'"
         >
           <Avatar
@@ -121,7 +121,7 @@
             >
             </Image>
           </Avatar>
-          <v-card-text class="text-decoration-none text-white">
+          <v-card-text class="text-white">
             {{ card.userFullName }}
           </v-card-text>
           <v-tooltip

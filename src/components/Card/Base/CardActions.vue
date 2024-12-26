@@ -8,6 +8,7 @@
   } from '@/services/Card/cardService';
   import { useUserInfo } from '@/services/User/userService';
   import { userData } from '@/services/User/userDataService';
+  import { getUserData } from '@/services/User/userGetData';
   /* import { collection, query, where, getDocs } from 'firebase/firestore';
 import { computed } from 'vue'; */
 
