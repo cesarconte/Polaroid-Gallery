@@ -67,13 +67,13 @@
       label: 'Register',
       to: '/register',
       icon: 'mdi-account-plus-outline',
-      showWhenLoggedIn: true,
+      showWhenLoggedIn: false,
     },
     {
       label: 'Login',
       to: '/login',
       icon: 'mdi-account-circle-outline',
-      showWhenLoggedIn: true,
+      showWhenLoggedIn: false,
     },
     {
       label: 'Submit a new polaroid',
@@ -84,6 +84,7 @@
       label: 'Log out',
       action: handleSignOut,
       icon: 'mdi-account-arrow-right-outline',
+      showWhenLoggedIn: true,
     },
   ];
 
