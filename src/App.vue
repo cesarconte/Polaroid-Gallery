@@ -1,56 +1,56 @@
 <!-- App.vue -->
 
 <script setup>
-  import { RouterView, useRouter, RouterLink } from 'vue-router';
-  import { ref, provide, watch } from 'vue';
-  import { getAuth, signOut } from 'firebase/auth';
-  import { useUserInfo } from './services/User/userService';
-  import { userData, resetUserData } from './services/User/userDataService';
-  import { useTheme, useDisplay } from 'vuetify';
-  import Button from './components/Base/Button.vue';
-  import PublishCard from './components/Card/PublishCard.vue';
-  import Avatar from './components/Base/Avatar.vue';
-  import Footer from './components/Footer.vue';
+  import { RouterView, useRouter, RouterLink } from 'vue-router'
+  import { ref, provide, watch } from 'vue'
+  import { getAuth, signOut } from 'firebase/auth'
+  import { useUserInfo } from './services/User/userService'
+  import { userData, resetUserData } from './services/User/userDataService'
+  import { useTheme, useDisplay } from 'vuetify'
+  import Button from './components/Base/Button.vue'
+  import PublishCard from './components/Card/PublishCard.vue'
+  import Avatar from './components/Base/Avatar.vue'
+  import Footer from './components/Footer.vue'
 
-  const { isLoggedIn } = useUserInfo();
-  const router = useRouter();
-  const isPublishDialogOpen = ref(false);
-  provide('isPublishDialogOpen', isPublishDialogOpen);
+  const { isLoggedIn } = useUserInfo()
+  const router = useRouter()
+  const isPublishDialogOpen = ref(false)
+  provide('isPublishDialogOpen', isPublishDialogOpen)
   const showPublishDialog = () => {
-    isPublishDialogOpen.value = true;
-  };
-  const drawer = ref(false);
-  const { xs, smAndUp, smAndDown, mdAndDown, mdAndUp, lgAndUp } = useDisplay();
+    isPublishDialogOpen.value = true
+  }
+  const drawer = ref(false)
+  const { xs, smAndUp, smAndDown, mdAndDown, mdAndUp, lgAndUp } = useDisplay()
 
-  let auth = getAuth();
+  let auth = getAuth()
 
   const handleSignOut = () => {
     const signOutConfirm = confirm(
       `${userData.fullName}, do you really want to log out?`
-    );
+    )
     if (signOutConfirm) {
       signOut(auth).then(() => {
-        resetUserData();
-        router.push('/');
-      });
+        resetUserData()
+        router.push('/')
+      })
     }
-  };
+  }
 
   const handleNavItem = (item) => {
     if (item.action) {
-      item.action();
+      item.action()
     } else if (item.to) {
-      navigateTo(item.to);
+      navigateTo(item.to)
     }
-    drawer.value = false;
-  };
+    drawer.value = false
+  }
 
   const navigateTo = (route) => {
     if (route) {
-      router.push(route);
-      drawer.value = false;
+      router.push(route)
+      drawer.value = false
     }
-  };
+  }
 
   const navItems = [
     {
@@ -86,7 +86,7 @@
       icon: 'mdi-account-arrow-right-outline',
       showWhenLoggedIn: true,
     },
-  ];
+  ]
 
   const items = [
     {
@@ -95,19 +95,19 @@
       icon: 'mdi-theme-light-dark',
       action: toggleTheme,
     },
-  ];
+  ]
 
-  const theme = useTheme();
+  const theme = useTheme()
 
   function toggleTheme() {
-    const currentTheme = theme.global.name.value;
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    theme.global.name.value = newTheme;
-    localStorage.setItem('darkMode', newTheme === 'dark');
+    const currentTheme = theme.global.name.value
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
+    theme.global.name.value = newTheme
+    localStorage.setItem('darkMode', newTheme === 'dark')
   }
 
   theme.global.name.value =
-    localStorage.getItem('darkMode') === 'true' ? 'dark' : 'light';
+    localStorage.getItem('darkMode') === 'true' ? 'dark' : 'light'
 </script>
 
 <template>
@@ -118,26 +118,22 @@
       scroll-behavior="fade-image"
       scroll-threshold="560"
       image="https://picsum.photos/1920/1080?random"
-      alt="app-bar picsum random background photo image"
-    >
+      alt="app-bar picsum random background photo image">
       <template v-slot:image>
         <v-img
           gradient="to top right, rgba(19,84,122,.8), rgba(128,208,199,.8)"
-          alt="app-bar picsum random background photo image"
-        ></v-img>
+          alt="app-bar picsum random background photo image"></v-img>
       </template>
       <template v-slot:prepend>
         <RouterLink
           active-class="activeIcon"
           to="/"
           class="text-decoration-none"
-          :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'"
-        >
+          :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
           <v-app-bar-nav-icon
             icon="mdi-panorama-variant-outline"
             border
-            class="router"
-          >
+            class="router">
           </v-app-bar-nav-icon>
           <v-tooltip
             activator="parent"
@@ -155,14 +151,12 @@
           "
           to="/explore"
           class="router text-decoration-none mr-2 d-none d-md-block"
-          :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'"
-        >
+          :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
           <Button
             v-if="mdAndDown"
             border
             btnSize="48"
-            class="rounded-circle"
-          >
+            class="rounded-circle">
             <v-icon>mdi-database-search-outline</v-icon>
             <v-tooltip
               activator="parent"
@@ -176,8 +170,7 @@
             :btnText="lgAndUp ? 'Explore' : ''"
             prependIcon="mdi-database-search-outline"
             :iconClass="lgAndUp ? 'mr-2' : ''"
-            class="text-none rounded-pill"
-          >
+            class="text-none rounded-pill">
           </Button>
         </RouterLink>
         <RouterLink
@@ -186,14 +179,12 @@
           "
           to="/users"
           class="router text-decoration-none mr-2 d-none d-md-block"
-          :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'"
-        >
+          :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
           <Button
             v-if="mdAndDown"
             border
             btnSize="48"
-            class="btnIcon rounded-circle"
-          >
+            class="btnIcon rounded-circle">
             <v-icon>mdi-account-group-outline</v-icon>
             <v-tooltip
               activator="parent"
@@ -207,8 +198,7 @@
             border
             prependIcon="mdi-account-group-outline"
             :iconClass="lgAndUp ? 'mr-2' : ''"
-            class="text-none rounded-pill"
-          >
+            class="text-none rounded-pill">
           </Button>
         </RouterLink>
         <RouterLink
@@ -218,14 +208,12 @@
           "
           to="/register"
           class="router text-decoration-none d-none d-md-block mr-2"
-          :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'"
-        >
+          :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
           <Button
             v-if="mdAndDown"
             border
             btnSize="48"
-            class="btnIcon rounded-circle"
-          >
+            class="btnIcon rounded-circle">
             <v-icon>mdi-account-plus-outline</v-icon>
             <v-tooltip
               activator="parent"
@@ -240,8 +228,7 @@
             :btnText="lgAndUp ? 'Register' : ''"
             prependIcon="mdi-account-plus-outline"
             :iconClass="lgAndUp ? 'mr-2' : ''"
-            class="text-none rounded-pill"
-          >
+            class="text-none rounded-pill">
           </Button>
         </RouterLink>
         <RouterLink
@@ -251,14 +238,12 @@
           "
           to="/login"
           class="router text-decoration-none mr-2 d-none d-sm-block"
-          :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'"
-        >
+          :class="mdAndDown ? 'rounded-circle' : 'rounded-pill'">
           <Button
             v-if="mdAndDown"
             border
             btnSize="48"
-            class="btnIcon rounded-circle"
-          >
+            class="btnIcon rounded-circle">
             <v-icon>mdi-account-circle-outline</v-icon>
             <v-tooltip
               activator="parent"
@@ -272,8 +257,7 @@
             :btnText="lgAndUp ? 'Log in' : ''"
             prependIcon="mdi-account-circle-outline"
             :iconClass="lgAndUp ? 'mr-2' : ''"
-            class="text-none rounded-pill"
-          >
+            class="text-none rounded-pill">
           </Button>
         </RouterLink>
         <v-app-bar-nav-icon
@@ -282,8 +266,7 @@
           color="white"
           :size="smAndDown ? '48' : ''"
           class="text-none d-none d-sm-block"
-          :class="smAndDown ? 'mr-2' : 'btnAvatar rounded-pill mr-2'"
-        >
+          :class="smAndDown ? 'mr-2' : 'btnAvatar rounded-pill mr-2'">
           <div :class="smAndDown ? '' : 'mr-2'">
             <Avatar :avatarSize="smAndDown ? '44' : '34'">
               <v-img
@@ -293,8 +276,7 @@
                 :alt="
                   isLoggedIn ? `Avatar of ${userData.fullName}` : 'User Avatar'
                 "
-                color="grey-darken-3"
-              >
+                color="grey-darken-3">
               </v-img>
             </Avatar>
           </div>
@@ -305,8 +287,7 @@
           border
           class="text-none d-none d-md-block mr-2 rounded-circle"
           btn-size="48"
-          @click="handleSignOut"
-        >
+          @click="handleSignOut">
           <v-icon>mdi-account-arrow-right-outline</v-icon>
           <v-tooltip
             activator="parent"
@@ -318,8 +299,7 @@
           v-if="isLoggedIn && lgAndUp"
           border
           class="mr-2 text-none d-none d-md-block rounded-pill"
-          @click="handleSignOut"
-        >
+          @click="handleSignOut">
           <v-icon :class="lgAndUp ? 'mr-2' : ''"
             >mdi-account-arrow-right-outline</v-icon
           >
@@ -330,8 +310,7 @@
           v-if="smAndUp"
           border
           :class="mdAndUp ? 'mr-2' : ''"
-          @click="toggleTheme"
-        >
+          @click="toggleTheme">
           <v-icon>mdi-theme-light-dark</v-icon>
           <v-tooltip
             activator="parent"
@@ -342,8 +321,7 @@
         <v-app-bar-nav-icon
           @click.stop="drawer = !drawer"
           aria-label="Menu"
-          class="mx-2 d-md-none"
-        >
+          class="mx-2 d-md-none">
           <v-icon>mdi-menu</v-icon>
           <v-tooltip
             activator="parent"
@@ -356,13 +334,11 @@
       <v-menu>
         <template
           v-slot:activator="{ props }"
-          class="px-0"
-        >
+          class="px-0">
           <Button
             class="d-sm-none mr-2 rounded-pill"
             btnSize="48"
-            v-bind="props"
-          >
+            v-bind="props">
             <v-icon>mdi-dots-vertical</v-icon>
             <v-tooltip
               activator="parent"
@@ -377,8 +353,7 @@
             :key="i"
             :value="i"
             :prepend-icon="item.icon"
-            @click="item.action"
-          >
+            @click="item.action">
             {{ item.label }}
           </v-list-item>
         </v-list>
@@ -389,8 +364,7 @@
       app
       :location="'top'"
       :temporary="true"
-      :class="'h-auto'"
-    >
+      :class="'h-auto'">
       <v-list>
         <v-list-item
           v-for="(item, index) in navItems.filter(
@@ -398,16 +372,14 @@
           )"
           :key="index"
           :prepend-icon="item.icon"
-          @click="handleNavItem(item)"
-        >
+          @click="handleNavItem(item)">
           {{ item.label }}
         </v-list-item>
         <template v-if="isLoggedIn && xs">
           <v-list-item>
             <Avatar
               :avatarSize="'24'"
-              class="mr-7"
-            >
+              class="mr-7">
               <v-img
                 v-if="userData.avatar"
                 cover
@@ -415,8 +387,7 @@
                 :alt="
                   isLoggedIn ? `Avatar of ${userData.fullName}` : 'User Avatar'
                 "
-                color="grey-darken-3"
-              >
+                color="grey-darken-3">
               </v-img>
             </Avatar>
             {{ userData.fullName }}
@@ -428,8 +399,7 @@
       <RouterView v-slot="{ Component }">
         <transition
           name="route"
-          mode="out-in"
-        >
+          mode="out-in">
           <component :is="Component" />
         </transition>
       </RouterView>
@@ -439,8 +409,12 @@
 </template>
 
 <style scoped>
-  main {
-    min-height: 100vh;
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100svh;
   }
 
   .route-enter-active,
